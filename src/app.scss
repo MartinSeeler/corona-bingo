@@ -1,6 +1,23 @@
-.bingo-cell {
-  font-size: 1.2em;
-  background-color: antiquewhite;
-  border: 1px solid grey;
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
+
+
+.bingo-box {
+  font-family: "Amatic SC", serif;
+  font-size: 1.2rem;
+  @media screen and (min-width: 640px) {
+    font-size: 1.6rem;
+  }
+  @media screen and (min-width: 1024px) {
+    font-size: 2rem;
+  }
+  border-width: 3px 4px 3px 5px;
+  border-radius: 42% 2% 31% 2%/2% 94% 5% 91%;
+  border: solid #0000003f;
+  transform: rotate(0deg);
   min-height: 15vh;
+
+  &.checked {
+    background: #C7F3DE url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M100 0 L0 100 ' stroke='red' stroke-width='8'/><path d='M0 0 L100 100 ' stroke='red' stroke-width='8'/></svg>") no-repeat center center;
+    background-size: 100% 100%, auto;
+  }
 }

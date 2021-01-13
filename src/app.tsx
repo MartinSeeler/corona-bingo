@@ -1,31 +1,40 @@
-import React, {useState} from 'react';
-import words from './words';
-import './app.scss';
+import React, { useEffect } from "react";
+import "./app.scss";
+import { preloadAuth, preloadDatabase, useFirebaseApp } from "reactfire";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Impressum from "./views/impressum.view";
+import firebase from "firebase";
+import AuthenticatedRoutes from "./components/auth-routes.component";
+import Header from "./components/header.component";
+import Footer from "./components/footer.component";
+
+const preloadSDKs = (firebaseApp: any) => {
+  return Promise.all([
+    preloadDatabase({ firebaseApp }),
+    preloadAuth({ firebaseApp }),
+  ]);
+};
 
 function App() {
-  const [wordsToUse] = useState<string[]>(() => {
-    const shuffled = words.sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 9).map(xs => xs.sort(() => 0.5 - Math.random())[0]);
-    console.log(selected)
-    return selected;
+  const firebaseApp = useFirebaseApp();
+  useEffect(() => {
+    firebaseApp
+      .auth()
+      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => preloadSDKs(firebaseApp));
   });
-  const [completed, setCompleted] = useState<boolean[]>(() => {
-    return Array(9).fill(false)
-  })
-  const toggleIndex = (idx: number) => {
-    setCompleted(oldCompleted => oldCompleted.map((v, i) => idx === i ? !v : v))
-  }
   return (
-    <div className="container">
-      <div className="row">
-        {wordsToUse.map((word: string, idx: number) => <div key={`cell-${idx}`}
-                                                            onClick={() => toggleIndex(idx)}
-                                                            className={"col-4 bingo-box text-center d-flex justify-content-center align-items-center" + (completed[idx] ? " checked" : "")}
-                                                            dangerouslySetInnerHTML={{__html: word}}/>
-        )}
+    <Router>
+      <Header />
+      <div className="container">
+        <Switch>
+          <Route path="/about" component={Impressum} />
+          <Route path="/impressum" component={Impressum} />
+          <Route path="/" component={AuthenticatedRoutes} />
+        </Switch>
       </div>
-
-    </div>
+      <Footer />
+    </Router>
   );
 }
 

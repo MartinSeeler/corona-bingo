@@ -23,7 +23,6 @@ const GameView: React.FunctionComponent = () => {
         <>
           {user.uid in data.players ? (
             <div className="jumbotron">
-              <h1 className="jumbotron-heading">Deine Wörter</h1>
               <BingoSheet gameId={gameId} userId={user.uid} />
             </div>
           ) : (

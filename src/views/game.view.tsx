@@ -15,16 +15,14 @@ const GameView: React.FunctionComponent = () => {
 
   switch (status) {
     case "loading":
-      return <LoadingSpinner />;
+      return <LoadingSpinner text={"Spiel wird geladen..."} />;
     case "error":
       return <p>Whoopsie!</p>;
     default:
       return "creator" in data ? (
         <>
           {user.uid in data.players ? (
-            <div className="jumbotron">
-              <BingoSheet gameId={gameId} userId={user.uid} />
-            </div>
+            <BingoSheet gameId={gameId} userId={user.uid} />
           ) : (
             <JoinGame gameId={gameId} />
           )}
@@ -40,7 +38,7 @@ const GameView: React.FunctionComponent = () => {
           {Object.entries(data.players).filter(([k]) => k !== user.uid).length >
             0 && (
             <>
-              <h2>Mitspieler</h2>
+              <hr />
               {Object.entries(data.players)
                 .filter(([k]) => k !== user.uid)
                 .map(([k, v]) => (

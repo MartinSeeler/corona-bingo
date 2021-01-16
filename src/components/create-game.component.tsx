@@ -48,7 +48,8 @@ const CreateGame: React.FunctionComponent<{}> = () => {
       <div className="container text-center">
         <h1 className="jumbotron-heading">Neues Spiel</h1>
         <p className="lead text-muted">
-          Erstelle ein neues Spiel und löse blah bla 64,47,155
+          Erstelle ein neues Corona-Bingo Spiel und spiele allein oder gegen
+          deine Freunde.
         </p>
       </div>
       <div className="container py-3">

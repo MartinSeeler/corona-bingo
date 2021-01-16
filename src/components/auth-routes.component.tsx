@@ -9,7 +9,7 @@ import LoadingSpinner from "./loading.component";
 const AuthenticatedRoutes: React.FunctionComponent = () => (
   <SuspenseWithPerf
     traceId={"firebase-user-create"}
-    fallback={<LoadingSpinner />}
+    fallback={<LoadingSpinner text={"Spiel wird geladen..."} />}
   >
     <AuthCheck fallback={<CreateUser />} requiredClaims={false}>
       <Switch>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useAuth } from "reactfire";
+import LoadingSpinner from "./loading.component";
 
 const CreateUser: React.FunctionComponent<{}> = () => {
   const auth = useAuth();
@@ -9,7 +10,7 @@ const CreateUser: React.FunctionComponent<{}> = () => {
       (err) => console.log("Err", err)
     );
   });
-  return <div>Hello Create User</div>;
+  return <LoadingSpinner text={"Neuer Spieler wird angelegt..."} />;
 };
 
 export default CreateUser;

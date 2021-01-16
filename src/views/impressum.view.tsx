@@ -76,7 +76,7 @@ const Impressum: React.FunctionComponent = () => {
         </p>
         <p>
           Quelle:{" "}
-          <a href="https://www.e-recht24.de" target="_blank">
+          <a href="https://www.e-recht24.de" target="_blank" rel="noreferrer">
             e-recht24.de
           </a>
         </p>

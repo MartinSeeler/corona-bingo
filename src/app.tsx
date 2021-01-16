@@ -26,13 +26,13 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className="container">
+      <main role="main" className="container">
         <Switch>
           <Route path="/about" component={Impressum} />
           <Route path="/impressum" component={Impressum} />
           <Route path="/" component={AuthenticatedRoutes} />
         </Switch>
-      </div>
+      </main>
       <Footer />
     </Router>
   );

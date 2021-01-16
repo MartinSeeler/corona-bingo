@@ -9,7 +9,7 @@ const BingoSheet: React.FunctionComponent<{
 }> = ({ gameId, userId, readOnly = false }) => {
   const database = useDatabase();
   const ref = database.ref(`/games/${gameId}/players/${userId}`);
-  const { status, data, hasEmitted } = useDatabaseObjectData<any>(ref);
+  const { data } = useDatabaseObjectData<any>(ref);
   const [completed, setCompleted] = useState<number[]>([]);
   const [words, setWords] = useState<string[]>([]);
   useEffect(() => {

@@ -4,6 +4,7 @@ import { useDatabase, useDatabaseObjectData, useUser } from "reactfire";
 import LoadingSpinner from "../components/loading.component";
 import BingoSheet from "../components/bingo-sheet.component";
 import JoinGame from "../components/join-game.component";
+import EnemyGameView from "../components/enemy-game.component";
 
 const GameView: React.FunctionComponent = () => {
   const { data: user } = useUser();
@@ -21,19 +22,22 @@ const GameView: React.FunctionComponent = () => {
       return "creator" in data ? (
         <>
           {user.uid in data.players ? (
-            <BingoSheet gameId={gameId} userId={user.uid} />
+            <div className="jumbotron">
+              <h1 className="jumbotron-heading">Deine Wörter</h1>
+              <BingoSheet gameId={gameId} userId={user.uid} />
+            </div>
           ) : (
             <JoinGame gameId={gameId} />
           )}
-          <div className="row">
-            <div className="col-md-6">
-              <h2>BINGO</h2>
-              <p>Noch keiner</p>
-            </div>
-            <div className="col-md-6">
-              <h2>BINGO BINGO</h2>
-            </div>
-          </div>
+          {/**<div className="row">
+           <div className="col-md-6">
+           <h2>BINGO</h2>
+           <p>Noch keiner</p>
+           </div>
+           <div className="col-md-6">
+           <h2>BINGO BINGO</h2>
+           </div>
+           </div>*/}
           {Object.entries(data.players).filter(([k]) => k !== user.uid).length >
             0 && (
             <>
@@ -41,7 +45,11 @@ const GameView: React.FunctionComponent = () => {
               {Object.entries(data.players)
                 .filter(([k]) => k !== user.uid)
                 .map(([k, v]) => (
-                  <BingoSheet gameId={gameId} userId={k} readOnly />
+                  <EnemyGameView
+                    key={"enemy-" + k}
+                    gameId={gameId}
+                    userId={k}
+                  />
                 ))}
             </>
           )}

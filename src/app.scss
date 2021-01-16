@@ -6,7 +6,14 @@
 
 .bingo-box {
   font-family: "Amatic SC", serif;
+  font-weight: 700;
+  font-size: 1.6em;
   cursor: pointer;
+
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 
   &.readonly {
     cursor: not-allowed;

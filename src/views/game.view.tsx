@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import { useDatabase, useDatabaseObjectData, useUser } from "reactfire";
 import LoadingSpinner from "../components/loading.component";
 import BingoSheet from "../components/bingo-sheet.component";
-import JoinGame from "../components/join-game.component";
 import EnemyGameView from "../components/enemy-game.component";
+import ShareComponent from "../components/share-game.component";
+import JoinGame from "../components/join-game.component";
 
 const GameView: React.FunctionComponent = () => {
   const { data: user } = useUser();
@@ -22,9 +23,15 @@ const GameView: React.FunctionComponent = () => {
       return "creator" in data ? (
         <>
           {user.uid in data.players ? (
-            <BingoSheet gameId={gameId} userId={user.uid} />
+            <>
+              <BingoSheet gameId={gameId} userId={user.uid} />
+              <ShareComponent />
+            </>
           ) : (
-            <JoinGame gameId={gameId} />
+            <>
+              <JoinGame gameId={gameId} />
+              <hr />
+            </>
           )}
           {/**<div className="row">
            <div className="col-md-6">
@@ -38,7 +45,6 @@ const GameView: React.FunctionComponent = () => {
           {Object.entries(data.players).filter(([k]) => k !== user.uid).length >
             0 && (
             <>
-              <hr />
               {Object.entries(data.players)
                 .filter(([k]) => k !== user.uid)
                 .map(([k, v]) => (

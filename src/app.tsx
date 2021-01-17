@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     firebaseApp
       .auth()
-      .setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(() => preloadSDKs(firebaseApp));
   });
   return (

@@ -3,6 +3,8 @@ import BingoCell from "./bingo-cell.component";
 import { useDatabase, useDatabaseObjectData } from "reactfire";
 import { usePlayerName } from "./use-player-name.hook";
 import { GameSheet } from "../views/game.view";
+import { toast } from "react-toastify";
+import WordCrossedMessage from "./notifications/word-crossed.component";
 
 const parseCompleted: (completed: string) => number[] = (completed: string) =>
   completed ? completed.split(";").map((x: string) => parseInt(x)) : [];
@@ -21,12 +23,35 @@ const BingoSheet: React.FunctionComponent<{
   );
   const [words, setWords] = useState<string[]>(() => data.words.split(";"));
   useEffect(() => {
-    setWords(data.words.split(";"));
-    setCompleted(parseCompleted(data.completed));
-  }, [data]);
+    const newWords = data.words.split(";");
+    setWords(newWords);
+    setCompleted((oldCompleted) => {
+      const newCompleted = parseCompleted(data.completed);
+      newCompleted
+        .filter((x) => !oldCompleted.includes(x))
+        .forEach((id) => {
+          readOnly &&
+            toast.error(
+              <WordCrossedMessage userId={userId} word={newWords[id]} />,
+              {
+                toastId: `crossed-${userId}-${id}`,
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              }
+            );
+        });
+      return newCompleted;
+    });
+  }, [data, userId, readOnly]);
   const markChecked = (idx: number) => {
     ref.child("completed").set([...completed, idx].join(";"));
   };
+
   return (
     <div className="py-3 no-select">
       <div className="container text-center">

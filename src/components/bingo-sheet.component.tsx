@@ -26,12 +26,13 @@ const BingoSheet: React.FunctionComponent<{
     ref.child("completed").set([...completed, idx].join(";"));
   };
   return (
-    <div className="py-3">
+    <div className="py-3 no-select">
       <div className="container text-center">
         <h2 className="jumbotron-heading">{username}</h2>
         <p className="lead text-muted">
+          hat{" "}
           <b>
-            hat {completed.length} von {words.length}
+            {completed.length} von {words.length}
           </b>{" "}
           Wörtern getroffen.
         </p>

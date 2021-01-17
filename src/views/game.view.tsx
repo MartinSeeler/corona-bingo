@@ -49,8 +49,8 @@ const GameView: React.FunctionComponent = () => {
         <>
           {user.uid in data.players ? (
             <>
-              <BingoSheet gameId={gameId} userId={user.uid} />
               <ShareComponent />
+              <BingoSheet gameId={gameId} userId={user.uid} />
             </>
           ) : (
             <>

@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Pacifico&display=swap');
 
-* {
-
+.no-select {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 .bingo-box {
@@ -9,11 +12,6 @@
   font-weight: 700;
   font-size: 1.6em;
   cursor: pointer;
-
-  user-select: none; /* supported by Chrome and Opera */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
 
   &.readonly {
     cursor: not-allowed;

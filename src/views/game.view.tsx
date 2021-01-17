@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDatabase, useDatabaseObjectData, useUser } from "reactfire";
+import {
+  useDatabase,
+  useDatabaseListData,
+  useDatabaseObjectData,
+  useUser,
+} from "reactfire";
 import LoadingSpinner from "../components/loading.component";
 import BingoSheet from "../components/bingo-sheet.component";
 import EnemyGameView from "../components/enemy-game.component";
@@ -12,7 +17,27 @@ const GameView: React.FunctionComponent = () => {
   const { gameId } = useParams<{ gameId: string }>();
   const database = useDatabase();
   const ref = database.ref(`/games/${gameId}`);
-  const { status, data } = useDatabaseObjectData<any>(ref);
+  const { status, data, hasEmitted } = useDatabaseObjectData<any>(ref);
+
+  const [otherPlayers, setOtherPlayers] = useState<string[]>([]);
+
+  const playersRef = database.ref(`/games/${gameId}/players`);
+  const { data: players } = useDatabaseListData<{ completed: number[] }>(
+    playersRef
+  );
+
+  useEffect(() => {
+    hasEmitted &&
+      setOtherPlayers(
+        Object.entries(data.players)
+          .filter(([k]) => k !== user.uid)
+          .map(([k]) => k)
+      );
+  }, [user, data, setOtherPlayers, hasEmitted]);
+
+  useEffect(() => {
+    console.log("OtherPlayers now", players);
+  }, [players]);
 
   switch (status) {
     case "loading":
@@ -33,27 +58,11 @@ const GameView: React.FunctionComponent = () => {
               <hr />
             </>
           )}
-          {/**<div className="row">
-           <div className="col-md-6">
-           <h2>BINGO</h2>
-           <p>Noch keiner</p>
-           </div>
-           <div className="col-md-6">
-           <h2>BINGO BINGO</h2>
-           </div>
-           </div>*/}
-          {Object.entries(data.players).filter(([k]) => k !== user.uid).length >
-            0 && (
+          {otherPlayers.length > 0 && (
             <>
-              {Object.entries(data.players)
-                .filter(([k]) => k !== user.uid)
-                .map(([k, v]) => (
-                  <EnemyGameView
-                    key={"enemy-" + k}
-                    gameId={gameId}
-                    userId={k}
-                  />
-                ))}
+              {otherPlayers.map((k) => (
+                <EnemyGameView key={"enemy-" + k} gameId={gameId} userId={k} />
+              ))}
             </>
           )}
         </>

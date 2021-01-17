@@ -1,43 +1,58 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  useDatabase,
-  useDatabaseListData,
-  useDatabaseObjectData,
-  useUser,
-} from "reactfire";
+import { useDatabase, useDatabaseObjectData, useUser } from "reactfire";
 import LoadingSpinner from "../components/loading.component";
 import BingoSheet from "../components/bingo-sheet.component";
 import EnemyGameView from "../components/enemy-game.component";
 import ShareComponent from "../components/share-game.component";
 import JoinGame from "../components/join-game.component";
+import { toast } from "react-toastify";
+
+export type GameSheet = {
+  completed: string;
+  words: string;
+};
+
+export type Game = {
+  creator: string;
+  created: number;
+  players: {
+    [uid: string]: GameSheet;
+  };
+};
 
 const GameView: React.FunctionComponent = () => {
   const { data: user } = useUser();
   const { gameId } = useParams<{ gameId: string }>();
   const database = useDatabase();
   const ref = database.ref(`/games/${gameId}`);
-  const { status, data, hasEmitted } = useDatabaseObjectData<any>(ref);
+  const { status, data } = useDatabaseObjectData<Game>(ref);
 
-  const [otherPlayers, setOtherPlayers] = useState<string[]>([]);
-
-  const playersRef = database.ref(`/games/${gameId}/players`);
-  const { data: players } = useDatabaseListData<{ completed: number[] }>(
-    playersRef
+  const [otherPlayers, setOtherPlayers] = useState<string[]>(
+    Object.entries(data.players)
+      .filter(([k]) => k !== user.uid)
+      .map(([k]) => k)
   );
 
   useEffect(() => {
-    hasEmitted &&
-      setOtherPlayers(
-        Object.entries(data.players)
-          .filter(([k]) => k !== user.uid)
-          .map(([k]) => k)
-      );
-  }, [user, data, setOtherPlayers, hasEmitted]);
-
-  useEffect(() => {
-    console.log("OtherPlayers now", players);
-  }, [players]);
+    const newOtherPlayers = Object.entries(data.players)
+      .filter(([k]) => k !== user.uid)
+      .map(([k]) => k);
+    newOtherPlayers
+      .filter((x) => !otherPlayers.includes(x))
+      .forEach((uid) => {
+        toast(`Spieler ${uid} ist beigetreten!`, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      });
+    setOtherPlayers(newOtherPlayers);
+  }, [user, data, setOtherPlayers]);
 
   switch (status) {
     case "loading":

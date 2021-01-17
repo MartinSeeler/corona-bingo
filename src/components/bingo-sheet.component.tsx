@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import BingoCell from "./bingo-cell.component";
 import { useDatabase, useDatabaseObjectData } from "reactfire";
 import { usePlayerName } from "./use-player-name.hook";
+import { GameSheet } from "../views/game.view";
+
+const parseCompleted: (completed: string) => number[] = (completed: string) =>
+  completed ? completed.split(";").map((x: string) => parseInt(x)) : [];
 
 const BingoSheet: React.FunctionComponent<{
   gameId: string;
@@ -11,16 +15,14 @@ const BingoSheet: React.FunctionComponent<{
   const [username] = usePlayerName(userId);
   const database = useDatabase();
   const ref = database.ref(`/games/${gameId}/players/${userId}`);
-  const { data } = useDatabaseObjectData<any>(ref);
-  const [completed, setCompleted] = useState<number[]>([]);
-  const [words, setWords] = useState<string[]>([]);
+  const { data } = useDatabaseObjectData<GameSheet>(ref);
+  const [completed, setCompleted] = useState<number[]>(() =>
+    parseCompleted(data.completed || "")
+  );
+  const [words, setWords] = useState<string[]>(() => data.words.split(";"));
   useEffect(() => {
     setWords(data.words.split(";"));
-    setCompleted(
-      data.completed
-        ? data.completed.split(";").map((x: string) => parseInt(x))
-        : []
-    );
+    setCompleted(parseCompleted(data.completed));
   }, [data]);
   const markChecked = (idx: number) => {
     ref.child("completed").set([...completed, idx].join(";"));

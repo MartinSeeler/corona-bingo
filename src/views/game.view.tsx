@@ -43,23 +43,26 @@ const GameView: React.FunctionComponent = () => {
   );
 
   useEffect(() => {
-    const newOtherPlayers = Object.entries(data.players)
-      .filter(([k]) => k !== user.uid)
-      .map(([k]) => k);
-    newOtherPlayers
-      .filter((x) => !otherPlayers.includes(x))
-      .forEach((uid) => {
-        toast.dark(<PlayerJoinedMessage userId={uid} />, {
-          position: "bottom-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+    setOtherPlayers((oldOtherPlayers) => {
+      const newOtherPlayers = Object.entries(data.players)
+        .filter(([k]) => k !== user.uid)
+        .map(([k]) => k);
+      newOtherPlayers
+        .filter((x) => !oldOtherPlayers.includes(x))
+        .forEach((uid) => {
+          toast.dark(<PlayerJoinedMessage userId={uid} />, {
+            toastId: `joined-${uid}`,
+            position: "bottom-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
         });
-      });
-    setOtherPlayers(newOtherPlayers);
+      return newOtherPlayers;
+    });
   }, [user, data, setOtherPlayers]);
 
   switch (status) {

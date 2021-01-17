@@ -4,22 +4,19 @@ import corona from "./corona.png";
 const LoadingSpinner: React.FunctionComponent<{ text: string }> = ({
   text,
 }) => (
-  <>
-    <div className="row text-center pt-5">
-      <div className="col-4 offset-4 col-sm-2 offset-sm-5">
+  <section className="jumbotron">
+    <div className="container text-center">
+      <h1 className="jumbotron-heading">{text}</h1>
+      <p className="lead text-muted">
         <img
           src={corona}
+          width={128}
           alt="loading-indicator"
           className="img-fluid rotating"
         />
-      </div>
+      </p>
     </div>
-    <div className="row text-center">
-      <div className="col">
-        <h1 className="jumbotron-heading">{text}</h1>
-      </div>
-    </div>
-  </>
+  </section>
 );
 
 export default LoadingSpinner;

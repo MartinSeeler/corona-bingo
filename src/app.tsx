@@ -3,7 +3,7 @@ import "./app.scss";
 import { preloadAuth, preloadDatabase, useFirebaseApp } from "reactfire";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Impressum from "./views/impressum.view";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import AuthenticatedRoutes from "./components/auth-routes.component";
 import Header from "./components/header.component";
 import Footer from "./components/footer.component";

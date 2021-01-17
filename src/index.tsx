@@ -7,7 +7,6 @@ import { FirebaseAppProvider } from "reactfire";
 import "firebase/auth";
 import "firebase/functions";
 import "firebase/database";
-import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,17 +26,6 @@ ReactDOM.render(
   <React.StrictMode>
     <FirebaseAppProvider firebaseConfig={firebaseConfig} suspense={true}>
       <App />
-      <ToastContainer
-        position="bottom-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-      />
     </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById("root")

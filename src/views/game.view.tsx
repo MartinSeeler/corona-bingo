@@ -7,6 +7,7 @@ import EnemyGameView from "../components/enemy-game.component";
 import ShareComponent from "../components/share-game.component";
 import JoinGame from "../components/join-game.component";
 import { toast } from "react-toastify";
+import { usePlayerName } from "../components/use-player-name.hook";
 
 export type GameSheet = {
   completed: string;
@@ -19,6 +20,13 @@ export type Game = {
   players: {
     [uid: string]: GameSheet;
   };
+};
+
+const PlayerJoinedMessage: React.FunctionComponent<{ userId: string }> = ({
+  userId,
+}) => {
+  const [username] = usePlayerName(userId);
+  return <div>{username} ist gerade dem Spiel beigetreten!</div>;
 };
 
 const GameView: React.FunctionComponent = () => {
@@ -41,7 +49,7 @@ const GameView: React.FunctionComponent = () => {
     newOtherPlayers
       .filter((x) => !otherPlayers.includes(x))
       .forEach((uid) => {
-        toast(`Spieler ${uid} ist beigetreten!`, {
+        toast.dark(<PlayerJoinedMessage userId={uid} />, {
           position: "bottom-center",
           autoClose: 5000,
           hideProgressBar: false,

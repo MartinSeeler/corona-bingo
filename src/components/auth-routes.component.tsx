@@ -5,6 +5,7 @@ import { Route, Switch } from "react-router-dom";
 import CreateGame from "./create-game.component";
 import GameView from "../views/game.view";
 import LoadingSpinner from "./loading.component";
+import { ToastContainer } from "react-toastify";
 
 const AuthenticatedRoutes: React.FunctionComponent = () => (
   <SuspenseWithPerf
@@ -17,6 +18,17 @@ const AuthenticatedRoutes: React.FunctionComponent = () => (
         <Route path="/:gameId" component={GameView} />
       </Switch>
     </AuthCheck>
+    <ToastContainer
+      position="bottom-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover
+    />
   </SuspenseWithPerf>
 );
 

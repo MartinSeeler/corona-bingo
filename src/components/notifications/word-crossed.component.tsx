@@ -9,7 +9,7 @@ const WordCrossedMessage: React.FunctionComponent<{
   return (
     <div>
       <b>{username}</b> hat gerade{" "}
-      <b dangerouslySetInnerHTML={{ __html: word }} /> abgehakt!
+      <b dangerouslySetInnerHTML={{ __html: word }} /> abgehakt! 😵
     </div>
   );
 };

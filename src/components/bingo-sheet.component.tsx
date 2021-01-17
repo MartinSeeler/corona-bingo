@@ -6,6 +6,7 @@ import { GameSheet } from "../views/game.view";
 import { toast } from "react-toastify";
 import WordCrossedMessage from "./notifications/word-crossed.component";
 import PlayerBingoMessage from "./notifications/player-bingo.component";
+import PlayerBingoBingoMessage from "./notifications/player-bingobingo.component";
 
 const parseCompleted: (completed: string) => number[] = (completed: string) =>
   completed ? completed.split(";").map((x: string) => parseInt(x)) : [];
@@ -23,6 +24,10 @@ const calcHasSimpleBingo: (completed: number[]) => boolean = (completed) => {
   ].some((xs) => xs.every((x) => completed.includes(x)));
 };
 
+const calcHasBingoBingo: (completed: number[]) => boolean = (completed) => {
+  return [0, 1, 2, 3, 4, 5, 6, 7, 8].every((x) => completed.includes(x));
+};
+
 const BingoSheet: React.FunctionComponent<{
   gameId: string;
   userId: string;
@@ -36,8 +41,12 @@ const BingoSheet: React.FunctionComponent<{
     parseCompleted(data.completed || "")
   );
 
-  const [hasSimpleBingo, sethasSimpleBingo] = useState(
+  const [hasSimpleBingo, setHasSimpleBingo] = useState(
     calcHasSimpleBingo(completed)
+  );
+
+  const [hasBingoBingo, setHasBingoBingo] = useState(
+    calcHasBingoBingo(completed)
   );
 
   const [words, setWords] = useState<string[]>(() => data.words.split(";"));
@@ -50,7 +59,7 @@ const BingoSheet: React.FunctionComponent<{
         .filter((x) => !oldCompleted.includes(x))
         .forEach((id) => {
           readOnly &&
-            toast.error(
+            toast.dark(
               <WordCrossedMessage userId={userId} word={newWords[id]} />,
               {
                 toastId: `crossed-${userId}-${id}`,
@@ -64,12 +73,12 @@ const BingoSheet: React.FunctionComponent<{
               }
             );
         });
-      sethasSimpleBingo((oldHasSimpleBingo) => {
+      setHasSimpleBingo((oldHasSimpleBingo) => {
         const newSimpleBingo = calcHasSimpleBingo(newCompleted);
         if (!oldHasSimpleBingo && newSimpleBingo) {
           readOnly &&
-            toast.success(<PlayerBingoMessage userId={userId} />, {
-              toastId: `crossed-${userId}-${userId}`,
+            toast.dark(<PlayerBingoMessage userId={userId} />, {
+              toastId: `bingo-${userId}`,
               position: "bottom-center",
               autoClose: 5000,
               hideProgressBar: false,
@@ -81,9 +90,26 @@ const BingoSheet: React.FunctionComponent<{
         }
         return newSimpleBingo;
       });
+      setHasBingoBingo((oldHasBingoBingo) => {
+        const newBingoBingo = calcHasBingoBingo(newCompleted);
+        if (!oldHasBingoBingo && newBingoBingo) {
+          readOnly &&
+            toast.dark(<PlayerBingoBingoMessage userId={userId} />, {
+              toastId: `bingobingo-${userId}`,
+              position: "bottom-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+        }
+        return newBingoBingo;
+      });
       return newCompleted;
     });
-  }, [data, userId, readOnly, sethasSimpleBingo]);
+  }, [data, userId, readOnly, setHasSimpleBingo, setHasBingoBingo]);
   const markChecked = (idx: number) => {
     ref.child("completed").set([...completed, idx].join(";"));
   };
@@ -93,7 +119,12 @@ const BingoSheet: React.FunctionComponent<{
       <div className="container text-center">
         <h2 className="jumbotron-heading">
           {username}{" "}
-          {hasSimpleBingo && <span className="badge bg-secondary">BINGO!</span>}
+          {hasSimpleBingo && !hasBingoBingo && (
+            <span className="badge bg-success">BINGO!</span>
+          )}
+          {hasBingoBingo && (
+            <span className="badge bg-success">BINGO BINGO!</span>
+          )}
         </h2>
         <p className="lead text-muted">
           hat{" "}

@@ -7,7 +7,7 @@ const PlayerBingoMessage: React.FunctionComponent<{ userId: string }> = ({
   const [username] = usePlayerName(userId);
   return (
     <div>
-      <b>{username}</b> hat das erste <b>BINGO</b> geschafft!
+      <b>{username}</b> hat das schon ein einfaches <b>BINGO</b> geschafft! 😱
     </div>
   );
 };

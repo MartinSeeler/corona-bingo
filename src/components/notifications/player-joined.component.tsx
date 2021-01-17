@@ -7,7 +7,7 @@ const PlayerJoinedMessage: React.FunctionComponent<{ userId: string }> = ({
   const [username] = usePlayerName(userId);
   return (
     <div>
-      <b>{username}</b> ist gerade dem Spiel beigetreten!
+      <b>{username}</b> ist gerade dem Spiel beigetreten! 👋
     </div>
   );
 };

@@ -13,6 +13,8 @@
   font-size: 1.6em;
   cursor: pointer;
 
+  transition: background-color ease 0.4s, color ease 0.4s;
+
   &.readonly {
     cursor: not-allowed;
   }

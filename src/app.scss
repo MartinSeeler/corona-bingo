@@ -1,5 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Pacifico&display=swap');
 
+
+// Import Bootstrap and its default variables
+@import '~bootstrap/scss/bootstrap-reboot.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '~bootstrap/scss/bootstrap-utilities.scss';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/navbar';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/type';
+@import '~bootstrap/scss/transitions';
+@import '~bootstrap/scss/accordion';
+
 .no-select {
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */

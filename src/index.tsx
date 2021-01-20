@@ -9,6 +9,7 @@ import "firebase/functions";
 import "firebase/database";
 
 import "react-toastify/dist/ReactToastify.css";
+import "bootstrap/js/dist/collapse";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBCnCE4k6CUEFdyAwSlxBhVc6AWYXtFIF4",

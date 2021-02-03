@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import BingoCell from "./bingo-cell.component";
 import { useDatabase, useDatabaseObjectData } from "reactfire";
 import { usePlayerName } from "./use-player-name.hook";
-import { GameSheet } from "../views/game.view";
 import { toast } from "react-toastify";
 import WordCrossedMessage from "./notifications/word-crossed.component";
 import PlayerBingoMessage from "./notifications/player-bingo.component";
 import PlayerBingoBingoMessage from "./notifications/player-bingobingo.component";
+import { GameSheet } from "../types";
 
 const parseCompleted: (completed: string) => number[] = (completed: string) =>
   completed ? completed.split(";").map((x: string) => parseInt(x)) : [];

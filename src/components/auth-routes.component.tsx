@@ -23,6 +23,7 @@ const AuthenticatedRoutes: React.FunctionComponent = () => (
       autoClose={3000}
       hideProgressBar={false}
       newestOnTop
+      limit={3}
       closeOnClick
       rtl={false}
       pauseOnFocusLoss={false}

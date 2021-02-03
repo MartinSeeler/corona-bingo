@@ -30,7 +30,7 @@ exports.deleteStale = functions
     const minOffset: number = 86400000; // 24h
     const now = new Date().getTime();
     const gamesRef = admin.database().ref("/games");
-    const playersRef = admin.database().ref("/players");
+    // const playersRef = admin.database().ref("/players");
     const deleteGames = gamesRef
       .get()
       .then((snap) => {
@@ -51,7 +51,7 @@ exports.deleteStale = functions
         console.log("Deleting games", gameIds);
         return Promise.all(gameIds.map((gid) => gamesRef.child(gid).remove()));
       });
-    const deletePlayers = playersRef
+    /*const deletePlayers = playersRef
       .get()
       .then((snap) => {
         if (snap.exists()) {
@@ -76,8 +76,8 @@ exports.deleteStale = functions
               .then(() => admin.auth().deleteUser(uid))
           )
         );
-      });
-    Promise.all([deleteGames, deletePlayers]).then(
+      });*/
+    Promise.all([deleteGames]).then(
       () => resp.sendStatus(200),
       () => resp.sendStatus(500)
     );

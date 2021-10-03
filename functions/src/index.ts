@@ -160,7 +160,5 @@ exports.onJoinGame = functions
 
 const createRandomWords: () => string[] = () => {
   const shuffled = words.sort(() => 0.5 - Math.random());
-  return shuffled
-    .slice(0, 9)
-    .map((xs) => xs.sort(() => 0.5 - Math.random())[0]);
+  return shuffled.slice(0, 9);
 };

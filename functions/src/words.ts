@@ -30,7 +30,7 @@ const words: string[] = [
   "Pandemie",
   "Patienten",
   "PCR",
-  "Personen"
+  "Personen",
   "positiv",
   "Prozent",
   "Risiko",

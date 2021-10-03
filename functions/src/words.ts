@@ -15,7 +15,6 @@ const words: string[] = [
   "immun",
   "impfen<wbr>geimpft",
   "Impfstoff",
-  "Impfstoff",
   "Impfung",
   "Infektion",
   "infiziert",
